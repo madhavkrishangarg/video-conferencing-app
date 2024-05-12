@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "721144554820",
+    "project_id": "mc-project-6f327",
+    "storage_bucket": "mc-project-6f327.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721144554820:android:7d93c530bc38a7aea42311",
+        "android_client_info": {
+          "package_name": "com.madhav.mc_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEO81f1qzd0SpkI2YTsxyS20nhhAbI3KI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
