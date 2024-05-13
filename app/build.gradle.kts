@@ -108,5 +108,7 @@ dependencies {
     }
     implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("androidx.compose.runtime:runtime-livedata:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 
 }

@@ -1,6 +1,7 @@
 package com.madhav.mc_project
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Preview
+@Preview(device = "id:pixel_4a")
 @Composable
 fun PreviewLoginScreen() {
     val navController = rememberNavController()
@@ -81,7 +82,7 @@ fun LoginScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(160.dp))
+        Spacer(modifier = Modifier.height(120.dp))
         Text(
             text = "Video Conferencing App   MC Endsem Project",
             style = MaterialTheme.typography.headlineMedium,
@@ -130,30 +131,52 @@ fun LoginScreen(navController: NavController) {
         Button(
             onClick = { loginUser(email, password, context) },
             modifier = Modifier
-                .width(200.dp)
-                .height(60.dp),
+                .width(160.dp)
+                .height(50.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6AB7FF))
         ) {
             Text(
                 "Login",
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = { registerUser(email, password, context) },
             modifier = Modifier
-                .width(240.dp)
-                .height(60.dp),
+                .width(160.dp)
+                .height(50.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6AB7FF))
         ) {
             Text(
                 "Register",
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 textAlign = TextAlign.Center
             )
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "or",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(16.dp),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = { continueAsGuest(context) },
+            modifier = Modifier
+                .width(200.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6AB7FF))
+        ) {
+            Text(
+                "Continue as Guest",
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+
 
 //        Button(
 //            onClick = { navController.navigate("register") },
@@ -167,11 +190,23 @@ fun LoginScreen(navController: NavController) {
 
 
 fun loginUser(email: String, password: String, context: Context) {
+
+    //if email and password are null, toast, please enter email and password
+    if (email.isEmpty() || password.isEmpty()) {
+        Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
+        return
+    }
+
     FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-                // Navigate to dashboard
+                // Navigate to Dashboard.kt
+                val intent = Intent(context, Dashboard::class.java).apply {
+                    putExtra("user", email)
+                }
+                context.startActivity(intent)
+
             } else {
                 Toast.makeText(
                     context,
@@ -183,6 +218,12 @@ fun loginUser(email: String, password: String, context: Context) {
 }
 
 fun registerUser(email: String, password: String, context: Context) {
+
+    if (email.isEmpty() || password.isEmpty()) {
+        Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
+        return
+    }
+
     FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -196,4 +237,11 @@ fun registerUser(email: String, password: String, context: Context) {
                 ).show()
             }
         }
+}
+
+fun continueAsGuest(context: Context) {
+    val intent = Intent(context, NewMeeting::class.java).apply {
+        putExtra("user", "madhav@gmail.com")
+    }
+    context.startActivity(intent)
 }
