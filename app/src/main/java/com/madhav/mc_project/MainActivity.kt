@@ -236,7 +236,7 @@ fun registerUser(email: String, password: String, context: Context) {
 
 fun continueAsGuest(context: Context) {
     val intent = Intent(context, NewMeeting::class.java).apply {
-        putExtra("user", "madhav@gmail.com")
+        putExtra("user", "Guest")
     }
     context.startActivity(intent)
 }

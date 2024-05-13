@@ -21,6 +21,10 @@ import com.madhav.mc_project.ui.theme.MC_ProjectTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jitsi.meet.sdk.JitsiMeet
+import org.jitsi.meet.sdk.JitsiMeetActivity
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions
+import java.net.URL
 
 class NewMeeting : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +49,10 @@ fun New_meeting(user: String?) {
         Column {
             Spacer(modifier = Modifier.height(100.dp))
             Text(
-                text = "Welcome, $user!",
+                text = "Welcome, $user! \n\nJoin a Meeting",
                 modifier = Modifier.padding(16.dp),
                 fontSize = 24.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Left
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -103,4 +107,21 @@ fun createNewMeeting(meetingId: String, user: String?, context: Context) {
             JitsiDatabaseAccessObject.upsert(JitsiDB(null, user!!, meetingId))
         }
     }
+
+    try {
+        val url = URL("https://meet.jit.si")
+        val defaultOptions: JitsiMeetConferenceOptions =
+            JitsiMeetConferenceOptions.Builder().setServerURL(url)
+                .build()
+        JitsiMeet.setDefaultConferenceOptions(defaultOptions)
+
+        val options: JitsiMeetConferenceOptions = JitsiMeetConferenceOptions.Builder()
+            .setRoom(meetingId)
+            .build()
+        JitsiMeetActivity.launch(context, options)
+
+    } catch (e : Exception) {
+        e.printStackTrace()
+    }
+
 }
